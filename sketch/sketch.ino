@@ -1,4 +1,4 @@
-
+#include <KeyboardController.h>
 //---right motor pin
  int pinAO1 = 4;
  int pinAO2 = 5;
@@ -16,11 +16,21 @@ void setup() {
   pinMode(pinBO1, OUTPUT);
   pinMode(pinBO2, OUTPUT);
   pinMode(pinBO3, OUTPUT);
+
+  boolean beginDelivery = false;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  if(beginDelivery){
+    
+    
+    
+  }
+  else{
+    
+  }
+  
 }
 
 void forward(int speed) {
