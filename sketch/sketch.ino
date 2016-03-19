@@ -1,4 +1,3 @@
-
 //---right motor pin
  int pinAO1 = 4;
  int pinAO2 = 5;
@@ -24,7 +23,7 @@ void loop() {
 }
 
 void forward(int speed) {
-
+  digital
 }
 
 void reverse(int speed) {
@@ -38,6 +37,5 @@ void turn(int degrees) {
 }
 
 void brake() {
-
 
 }
