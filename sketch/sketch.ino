@@ -14,7 +14,7 @@ void setup() {
   pinMode(pinAO3, OUTPUT);
 
   pinMode(pinBO1, OUTPUT);
-  pinMode(pinBOddffsfa2, OUTPUT);
+  pinMode(pinBO2, OUTPUT);
   pinMode(pinBO3, OUTPUT);
 }
 
