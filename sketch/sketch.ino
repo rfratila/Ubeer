@@ -3,7 +3,7 @@
  int pinAO2 = 5;
  int pinAO3 = 6;
 //---left motor pin
- int pinBO1 = 1ff
+ int pinBO1 = 1;
  int pinBO2 = 2;
  int pinBO3 = 3;
 
