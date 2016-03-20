@@ -1,3 +1,7 @@
+#include <WiFi.h>
+
+WiFiClient client;
+
 // Left motor pin
 const int pinBO1 = 1;
 const int pinBO2 = 2;
@@ -12,8 +16,20 @@ const int pinLED = 13;
 
 const int pinEchoResponse = 8;
 const int pinEchoTrigger = 9;
- 
+
+IPAddress serverIP(192, 168, 0, 102);
+const int serverPort = 1234;
+
+char ssid[] = "EdisonWiFI";
+char wifiPassword[] = "00000000";
+
 void setup() {
+  connectWifi(ssid, wifiPassword);
+
+  if (client.connect(serverIP, serverPort)) {
+    client.println("Edison connected");
+  }
+  
   pinMode(pinAO1, OUTPUT);
   pinMode(pinAO2, OUTPUT);
   pinMode(pinAO3, OUTPUT);
@@ -26,11 +42,11 @@ void setup() {
 
   pinMode(pinEchoTrigger, OUTPUT);
   pinMode(pinEchoResponse, INPUT);
-    
-  flashLED(20, 50);
+
+  flashLED(10, 50);
 }
 
-void loop() { 
+void loop() {
   unsigned long distance = ping();
   int accelerate = 1.5;
   int speed = 50;
@@ -51,6 +67,14 @@ void loop() {
   }
 }
 
+void connectWifi(char ssid[], char wifiPassword[]) {
+  int status = WL_IDLE_STATUS;
+  while (status != WL_CONNECTED) {
+    status = WiFi.begin(ssid, wifiPassword);
+    delay(10000);
+  }
+}
+
 // Sends a ping and returns in cm how far an obstacle is
 unsigned long ping() {
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
@@ -60,20 +84,20 @@ unsigned long ping() {
   delayMicroseconds(5);
   digitalWrite(pinEchoTrigger, LOW);
 
-  unsigned long duration = pulseIn(pinEchoResponse, HIGH);  
+  unsigned long duration = pulseIn(pinEchoResponse, HIGH);
   unsigned long distance = duration / 58.2;
-  
+
   delay(100);
   return distance;
 }
 
 void flashLED(int numTimes, int duration) {
   for (int i = 1; i <= numTimes; i++) {
-    digitalWrite(pinLED, HIGH);   
-    delay(duration);              
+    digitalWrite(pinLED, HIGH);
+    delay(duration);
     digitalWrite(pinLED, LOW);
-    delay(duration);    
-  } 
+    delay(duration);
+  }
 }
 
 void forward(int speedR, int speedL) {
@@ -105,10 +129,10 @@ void reverse(int speedR, int speedL) {
 void turn(int degrees) {
   //time for 360
   int t = 10;
-  int state[] = {digitalRead(pinAO1), digitalRead(pinAO2),digitalRead(pinBO1), digitalRead(pinBO2)};
+  int state[] = {digitalRead(pinAO1), digitalRead(pinAO2), digitalRead(pinBO1), digitalRead(pinBO2)};
   brake();
-  
-  if (degrees > 0){
+
+  if (degrees > 0) {
     digitalWrite(pinAO1, HIGH);
     digitalWrite(pinAO2, LOW);
     digitalWrite(pinBO1, LOW);
@@ -119,11 +143,11 @@ void turn(int degrees) {
     digitalWrite(pinBO1, HIGH);
     digitalWrite(pinBO2, LOW);
   }
-  
+
   analogWrite(pinAO3, 255);
   analogWrite(pinBO3, 255);
 
-  delay(abs(degrees*t));
+  delay(abs(degrees * t));
 
   digitalWrite(pinAO1, state[0]);
   digitalWrite(pinAO2, state[1]);
