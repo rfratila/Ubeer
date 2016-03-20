@@ -16,6 +16,9 @@ const int pinLED = 13;
 
 const int pinEchoResponse = 8;
 const int pinEchoTrigger = 9;
+int speed = 50;
+boolean go = true;
+boolean wentBackward = false;
 
 IPAddress serverIP(192, 168, 0, 102);
 const int serverPort = 1234;
@@ -48,23 +51,33 @@ void setup() {
 
 void loop() {//mapping algorithm
   unsigned long distance = IR();
-  boolean go = true;
-  int accelerate = 1.5;
-  int speed = 50;
-  client.println("EDISON:Sending");
+  
+  int accelerate = 1.15;  
+  client.println(speed);
   if(go){    
-    speed = speed * accelerate;
+    if (speed <= 100){
+      speed = speed * accelerate;
+    }    
     forward(speed,50);
   }
   else{
-    speed = speed * (1/accelerate);
+    if(speed > 50){
+      speed = speed / accelerate;
+    }
     reverse(speed,50);
+    if(speed == 50){
+      wentBackward = true;
+    }
+    
   }
   if (distance < 10) {
     go = false;
   }
-  else{
+  if (wentBackward){
+    forward(50,50);//move a little forward so you don't hit the exact same spot
+    delay(100);
     go = true;
+    wentBackward = false;
   }
 }
 
@@ -78,7 +91,7 @@ void connectWifi(char ssid[], char wifiPassword[]) {
 
 unsigned long IR(){
   int x = analogRead(7);
-  flashLED(5,70);
+  //flashLED(5,70);
   return x;
 }
 
