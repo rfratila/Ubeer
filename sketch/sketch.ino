@@ -51,7 +51,7 @@ void loop() {//mapping algorithm
   boolean go = true;
   int accelerate = 1.5;
   int speed = 50;
-  client.println("EDISON:" + distance);
+  client.println("EDISON:Sending");
   if(go){    
     speed = speed * accelerate;
     forward(speed,50);
@@ -78,6 +78,7 @@ void connectWifi(char ssid[], char wifiPassword[]) {
 
 unsigned long IR(){
   int x = analogRead(7);
+  flashLED(5,70);
   return x;
 }
 
