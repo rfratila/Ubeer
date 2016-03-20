@@ -68,26 +68,26 @@ void randomWalk(){
     start = millis();
     startTimer = true;
   }
-  
+  client.println(start + "," 0);
   unsigned long dist = ping();
   long distance;
   long distovertime = 0.03;//cm/milli
   forward(100,100);
-  if (dist < 15){
+  if (dist < 2){
+    brake();
     long finished = millis();
     long elapsed = finished - start;
-    startTimer = false;
-    brake();
+    startTimer = false;    
     distance = elapsed * distovertime;
     client.println(degree + "," + distance);
     int rw = random(0,100);
     if (rw < 50){//turn right
       degree += 45;
-      turn(degree);
+      turn(45);
     }
     else if (rw >= 50){//turn left
       degree -= 45;
-      turn(degree);
+      turn(-45);
     }    
   }  
 }
