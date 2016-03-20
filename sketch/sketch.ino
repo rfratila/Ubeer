@@ -50,7 +50,7 @@ void setup() {
 }
 
 void loop() {//mapping algorithm
-  unsigned long distance = IR();
+  unsigned int distance = IR();
   
   float accelerate = 1.15;  
   client.println(speed);
@@ -70,7 +70,7 @@ void loop() {//mapping algorithm
     }
     
   }
-  if (distance < 10) {
+  if (distance == 1) {
     go = false;
   }
   if (wentBackward){
@@ -89,8 +89,8 @@ void connectWifi(char ssid[], char wifiPassword[]) {
   }
 }
 
-unsigned long IR(){
-  int x = analogRead(7);
+unsigned int IR(){
+ unsigned int x = digitalRead(7);
   //flashLED(5,70);
   return x;
 }
