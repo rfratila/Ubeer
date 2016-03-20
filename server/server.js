@@ -28,6 +28,7 @@ net.createServer(function (socket) {
   socket.on('data', function (data) {
     if (data) {
       data = data.toString().trim();
+      console.log(data);
       if (data === 'Edison connected') {
         edisonIP = socket.remoteAddress;
         console.log('Edison connected: ' + edisonIP);
@@ -42,11 +43,11 @@ net.createServer(function (socket) {
   });
 
   socket.on('close', function (data) {
-    console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
+    console.log('CLOSED: ' + socket.remoteAddress + ':' + socket.remotePort);
   });
 
   socket.on('error', function (data) {
-    console.log('ERROR: ' + socket.remoteAddress + ' ' + socket.remotePort);
+    console.log('ERROR: ' + socket.remoteAddress + ':' + socket.remotePort);
   });
 
 }).listen(port, host);
