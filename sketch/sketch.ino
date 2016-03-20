@@ -23,7 +23,17 @@ void setup() {
   pinMode(pinBO3, OUTPUT);
 
   boolean beginDelivery = false;
-  Serial.begin(9600); // Initialize serial communications
+
+  pinMode(13, OUTPUT);
+
+  // Startup LED flash
+  digitalWrite(13, HIGH);   
+  delay(5000);              
+  digitalWrite(13, LOW);
+  delay(500);  
+  digitalWrite(13, HIGH);   
+  delay(500);              
+  digitalWrite(13, LOW);
 }
 
 void loop() { 
