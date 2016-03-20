@@ -46,8 +46,8 @@ void setup() {
   flashLED(10, 50);
 }
 
-void loop() {
-  unsigned long distance = ping();
+void loop() {//mapping algorithm
+  unsigned long distance = IR();
   int accelerate = 1.5;
   int speed = 50;
   boolean go = true;
@@ -73,6 +73,11 @@ void connectWifi(char ssid[], char wifiPassword[]) {
     status = WiFi.begin(ssid, wifiPassword);
     delay(10000);
   }
+}
+
+unsigned long IR(){
+  int x = analogRead(7);
+  return x;
 }
 
 // Sends a ping and returns in cm how far an obstacle is
