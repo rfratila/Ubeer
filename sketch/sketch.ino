@@ -1,17 +1,17 @@
-//<<<<<<< HEAD
-//=======
-//>>>>>>> 4e4678ba477ba56ca060624aef7a2ff402e0011c
-//---right motor pin
- int pinAO1 = 4;
- int pinAO2 = 5;
- int pinAO3 = 6;
-//---left motor pin
- int pinBO1 = 1;
- int pinBO2 = 2;
- int pinBO3 = 3;
- const int trig = 9;//sensor pin number
- const int echo = 8;//sensor pin number
- long duration, cm;
+// Right motor pin
+int pinAO1 = 4;
+int pinAO2 = 5;
+int pinAO3 = 6;
+
+// Left motor pin
+int pinBO1 = 1;
+int pinBO2 = 2;
+int pinBO3 = 3;
+
+const int trig = 9;// Sensor pin number
+const int echo = 8;// Sensor pin number
+
+long duration, cm;
  
 void setup() {
   pinMode(pinAO1, OUTPUT);
@@ -23,14 +23,10 @@ void setup() {
   pinMode(pinBO3, OUTPUT);
 
   boolean beginDelivery = false;
-  Serial.begin(9600);//initialize serial communications
-  
-  
+  Serial.begin(9600); // Initialize serial communications
 }
 
-void loop() {
-  
-  
+void loop() { 
   ping();
   forward(50);
   if(cm < 15){
@@ -45,8 +41,7 @@ void loop() {
 
 void ping(){
   // establish variables for duration of the ping,
-  // and the distance result in inches and centimeters:
-  
+  // and the distance result in inches and centimeters  
 
   // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
