@@ -42,18 +42,21 @@ void setup() {
 
   pinMode(pinEchoTrigger, OUTPUT);
   pinMode(pinEchoResponse, INPUT);
-
+  
   flashLED(10, 50);
 }
 
 void loop() {//mapping algorithm
   unsigned long distance = IR();
+  boolean go = true;
   int accelerate = 1.5;
   int speed = 50;
-  boolean go = true;
+  forward(50,50);
+  delay(1000);
   if(go){    
     speed = speed * accelerate;
     forward(speed,50);
+    delay(1000);
   }
   else{
     speed = speed * (1/accelerate);
