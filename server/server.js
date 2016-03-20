@@ -35,7 +35,7 @@ net.createServer(function (socket) {
       } else {
         for (var i = 0; i < forwardingSockets.length; i++) {
           if (forwardingSockets[i]) {
-            forwardingSockets[i].write(data.toString());
+            forwardingSockets[i].write(data.toString() + '\r\n');
           }
         }
       }
