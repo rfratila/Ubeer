@@ -51,12 +51,10 @@ void loop() {//mapping algorithm
   boolean go = true;
   int accelerate = 1.5;
   int speed = 50;
-  forward(50,50);
-  delay(1000);
+  client.println("EDISON:" + distance);
   if(go){    
     speed = speed * accelerate;
     forward(speed,50);
-    delay(1000);
   }
   else{
     speed = speed * (1/accelerate);
