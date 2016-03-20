@@ -56,7 +56,8 @@ void setup() {
 }
 
 void loop() {
-  randomWalk();
+  forward(100,100);
+  //randomWalk();
   //hugWallAlg();
 }
 
