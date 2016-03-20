@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-#include <KeyboardController.h>
-=======
->>>>>>> 4e4678ba477ba56ca060624aef7a2ff402e0011c
+//<<<<<<< HEAD
+//=======
+//>>>>>>> 4e4678ba477ba56ca060624aef7a2ff402e0011c
 //---right motor pin
  int pinAO1 = 4;
  int pinAO2 = 5;
@@ -10,7 +9,10 @@
  int pinBO1 = 1;
  int pinBO2 = 2;
  int pinBO3 = 3;
-
+ const int trig = 9;//sensor pin number
+ const int echo = 8;//sensor pin number
+ long duration, cm;
+ 
 void setup() {
   pinMode(pinAO1, OUTPUT);
   pinMode(pinAO2, OUTPUT);
@@ -22,12 +24,13 @@ void setup() {
 
   boolean beginDelivery = false;
   Serial.begin(9600);//initialize serial communications
-  const int pingPin = 7;//sensor pin number
+  
+  
 }
 
 void loop() {
-
-if(keyboard.getKey() = ' '){
+  
+  
   ping();
   forward(50);
   if(cm < 15){
@@ -38,32 +41,30 @@ if(keyboard.getKey() = ' '){
 }
   
   
-}
+
 
 void ping(){
   // establish variables for duration of the ping,
   // and the distance result in inches and centimeters:
-  public long duration, cm;
+  
 
   // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  pinMode(pingPin, OUTPUT);
-  digitalWrite(pingPin, LOW);
+  pinMode(echo, OUTPUT);
+  digitalWrite(echo, LOW);
   delayMicroseconds(2);
-  digitalWrite(pingPin, HIGH);
+  digitalWrite(echo, HIGH);
   delayMicroseconds(5);
-  digitalWrite(pingPin, LOW);
+  digitalWrite(echo, LOW);
 
   // The same pin is used to read the signal from the PING))): a HIGH
   // pulse whose duration is the time (in microseconds) from the sending
   // of the ping to the reception of its echo off of an object.
-  pinMode(pingPin, INPUT);
-  duration = pulseIn(pingPin, HIGH);
+  pinMode(trig, INPUT);
+  duration = pulseIn(trig, HIGH);
 
-  // convert the time into a distance
-  
+  // convert the time into a distance  
   cm = microsecondsToCentimeters(duration);
-
   
   Serial.print(cm);
   Serial.print("cm");
@@ -84,7 +85,7 @@ void forward(int speed) {
   digitalWrite(pinBO1, HIGH);
   digitalWrite(pinBO2, LOW);
 
-  int  sig map(speed, 1 , 100, 0, 255);
+  int  sig = map(speed, 1 , 100, 0, 255);
   analogWrite(pinAO3, sig);
   analogWrite(pinBO3, sig);
 }
@@ -95,7 +96,7 @@ void reverse(int speed) {
   digitalWrite(pinBO1, LOW);
   digitalWrite(pinBO2, HIGH);
 
-  int  sig map(speed, 1 , 100, 0, 255);
+  int  sig = map(speed, 1 , 100, 0, 255);
   analogWrite(pinAO3, sig);
   analogWrite(pinBO3, sig);
 }
@@ -104,9 +105,8 @@ void reverse(int speed) {
 //NEGATIVE degree will turn to the LEFT
 void turn(int degrees) {
   //time for 360
-  int t = 10
-  int[] state = [digitalRead(pinAO1), digitalRead(pinAO2),
-                digitalRead(pinBO1), digitalRead(pinBO2)]
+  int t = 10;
+  int state[] = {digitalRead(pinAO1), digitalRead(pinAO2),digitalRead(pinBO1), digitalRead(pinBO2)};
   brake();
   if (degrees > 0){
     digitalWrite(pinAO1, HIGH);
@@ -122,7 +122,7 @@ void turn(int degrees) {
   analogWrite(pinAO3, 255);
   analogWrite(pinBO3, 255);
 
-  delay(abs(degrees*t))
+  delay(abs(degrees*t));
 
   digitalWrite(pinAO1, state[0]);
   digitalWrite(pinAO2, state[1]);
