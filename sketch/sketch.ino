@@ -53,7 +53,7 @@ void loop() {//mapping algorithm
   unsigned int distance = IR();
   
   float accelerate = 1.15;  
-  client.println(speed);
+  client.println(distance);
   if(go){    
     if (speed < 100){
       speed = speed * accelerate;
