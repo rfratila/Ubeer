@@ -14,9 +14,12 @@ const int pinAO3 = 6;
 
 const int pinLED = 13;
 
+const int pinIR = 7;
 const int pinEchoResponse = 8;
 const int pinEchoTrigger = 9;
+
 float speed = 50;
+
 boolean go = true;
 boolean wentBackward = false;
 
@@ -45,36 +48,41 @@ void setup() {
 
   pinMode(pinEchoTrigger, OUTPUT);
   pinMode(pinEchoResponse, INPUT);
-  
+
+  pinMode(pinIR, INPUT);
+    
   flashLED(10, 50);
 }
 
-void loop() {//mapping algorithm
-  unsigned int distance = IR();
+void loop() {
+  int distance = digitalRead(pinIR);
   
   float accelerate = 1.15;  
+  
   client.println(distance);
-  if(go){    
-    if (speed < 100){
-      speed = speed * accelerate;
+  
+  if (go) {    
+    if (speed < 100) {
+      speed *= accelerate;
     }    
-    forward((int)speed,50);
+    forward((int)speed, 50);
   }
-  else{
-    if(speed > 50){
-      speed = speed / accelerate;
+  else {
+    if(speed > 50) {
+      speed /= accelerate;
     }
-    reverse((int)speed,50);
-    if(speed == 50){
+    reverse((int)speed, 50);
+    if(speed == 50) {
       wentBackward = true;
-    }
-    
+    }    
   }
+  
   if (distance == 1) {
     go = false;
   }
-  if (wentBackward){
-    forward(50,50);//move a little forward so you don't hit the exact same spot
+  
+  if (wentBackward) {
+    forward(50, 50); // Move a little forward so you don't hit the exact same spot
     delay(100);
     go = true;
     wentBackward = false;
@@ -87,12 +95,6 @@ void connectWifi(char ssid[], char wifiPassword[]) {
     status = WiFi.begin(ssid, wifiPassword);
     delay(10000);
   }
-}
-
-unsigned int IR(){
- unsigned int x = digitalRead(7);
-  //flashLED(5,70);
-  return x;
 }
 
 // Sends a ping and returns in cm how far an obstacle is
