@@ -42,12 +42,12 @@ net.createServer(function (socket) {
     }
   });
 
-  socket.on('close', function (data) {
+  socket.on('close', function (err) {
     console.log('CLOSED: ' + socket.remoteAddress + ':' + socket.remotePort);
   });
 
-  socket.on('error', function (data) {
-    console.log('ERROR: ' + socket.remoteAddress + ':' + socket.remotePort);
+  socket.on('error', function (err) {
+    console.log('ERROR: ' + err);
   });
 
 }).listen(port, host);
