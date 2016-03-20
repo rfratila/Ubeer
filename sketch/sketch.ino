@@ -32,11 +32,22 @@ void setup() {
 
 void loop() { 
   unsigned long distance = ping();
-  forward(50);
-  if (distance < 15) {
-    brake();
-    reverse(100);
-    turn(45);
+  int accelerate = 1.5;
+  int speed = 50;
+  boolean go = true;
+  if(go){    
+    speed = speed * accelerate;
+    forward(speed,50);
+  }
+  else{
+    speed = speed * (1/accelerate);
+    reverse(speed,50);
+  }
+  if (distance < 10) {
+    go = false;
+  }
+  else{
+    go = true;
   }
 }
 
@@ -65,26 +76,28 @@ void flashLED(int numTimes, int duration) {
   } 
 }
 
-void forward(int speed) {
+void forward(int speedR, int speedL) {
   digitalWrite(pinAO1, HIGH);
   digitalWrite(pinAO2, LOW);
   digitalWrite(pinBO1, HIGH);
   digitalWrite(pinBO2, LOW);
 
-  int  sig = map(speed, 1 , 100, 0, 255);
-  analogWrite(pinAO3, sig);
-  analogWrite(pinBO3, sig);
+  int  sigR = map(speedR, 1 , 100, 0, 255);
+  int  sigL = map(speedL, 1 , 100, 0, 255);
+  analogWrite(pinAO3, sigR);//right (0-255)
+  analogWrite(pinBO3, sigL);//left (0-255)
 }
 
-void reverse(int speed) {
+void reverse(int speedR, int speedL) {
   digitalWrite(pinAO1, LOW);
   digitalWrite(pinAO2, HIGH);
   digitalWrite(pinBO1, LOW);
   digitalWrite(pinBO2, HIGH);
 
-  int  sig = map(speed, 1 , 100, 0, 255);
-  analogWrite(pinAO3, sig);
-  analogWrite(pinBO3, sig);
+  int  sigR = map(speedR, 1 , 100, 0, 255);
+  int  sigL = map(speedL, 1 , 100, 0, 255);
+  analogWrite(pinAO3, sigR);//right (0-255)
+  analogWrite(pinBO3, sigL);//left (0-255)
 }
 
 // POSITIVE degrees will turn to the RIGHT
