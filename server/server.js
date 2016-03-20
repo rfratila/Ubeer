@@ -28,7 +28,7 @@ net.createServer(function (socket) {
       dataArr = data.toString().split(':');
       if (dataArr[0] === 'EDISON') {
         for (var i = 0; i < forwardingSockets.length; i++) {
-          socket.write(dataArr[1]);
+          forwardingSockets[i].write(dataArr[1]);
         }
         return;
       }
