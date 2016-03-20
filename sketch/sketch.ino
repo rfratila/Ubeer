@@ -42,15 +42,16 @@ void setup() {
 
   pinMode(pinEchoTrigger, OUTPUT);
   pinMode(pinEchoResponse, INPUT);
-
+  
   flashLED(10, 50);
 }
 
 void loop() {//mapping algorithm
   unsigned long distance = IR();
+  boolean go = true;
   int accelerate = 1.5;
   int speed = 50;
-  boolean go = true;
+  client.println("EDISON:" + distance);
   if(go){    
     speed = speed * accelerate;
     forward(speed,50);
