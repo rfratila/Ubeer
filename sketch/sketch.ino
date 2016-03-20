@@ -161,8 +161,8 @@ void flashLED(int numTimes, int duration) {
 void forward(int speedR, int speedL) {
   digitalWrite(pinAO1, HIGH);
   digitalWrite(pinAO2, LOW);
-  digitalWrite(pinBO1, LOW);
-  digitalWrite(pinBO2, HIGH);
+  digitalWrite(pinBO1, HIGH);
+  digitalWrite(pinBO2, LOW);
 
   int  sigR = map(speedR, 1 , 100, 0, 255);
   int  sigL = map(speedL, 1 , 100, 0, 255);
