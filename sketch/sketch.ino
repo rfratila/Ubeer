@@ -161,8 +161,8 @@ void flashLED(int numTimes, int duration) {
 void forward(int speedR, int speedL) {
   digitalWrite(pinAO1, HIGH);
   digitalWrite(pinAO2, LOW);
-  digitalWrite(pinBO1, HIGH);
-  digitalWrite(pinBO2, LOW);
+  digitalWrite(pinBO1, LOW);
+  digitalWrite(pinBO2, HIGH);
 
   int  sigR = map(speedR, 1 , 100, 0, 255);
   int  sigL = map(speedL, 1 , 100, 0, 255);
@@ -186,7 +186,7 @@ void reverse(int speedR, int speedL) {
 // NEGATIVE degrees will turn to the LEFT
 void turn(int degrees) {
   //time for 360
-  int t = 10;
+  double t = 0.09;
   int state[] = {digitalRead(pinAO1), digitalRead(pinAO2), digitalRead(pinBO1), digitalRead(pinBO2)};
   brake();
 
