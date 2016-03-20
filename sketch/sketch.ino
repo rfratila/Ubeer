@@ -16,7 +16,7 @@ const int pinLED = 13;
 
 const int pinEchoResponse = 8;
 const int pinEchoTrigger = 9;
-int speed = 50;
+float speed = 50;
 boolean go = true;
 boolean wentBackward = false;
 
@@ -52,19 +52,19 @@ void setup() {
 void loop() {//mapping algorithm
   unsigned long distance = IR();
   
-  int accelerate = 1.15;  
+  float accelerate = 1.15;  
   client.println(speed);
   if(go){    
-    if (speed <= 100){
+    if (speed < 100){
       speed = speed * accelerate;
     }    
-    forward(speed,50);
+    forward((int)speed,50);
   }
   else{
     if(speed > 50){
       speed = speed / accelerate;
     }
-    reverse(speed,50);
+    reverse((int)speed,50);
     if(speed == 50){
       wentBackward = true;
     }
