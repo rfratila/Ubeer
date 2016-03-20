@@ -8,7 +8,7 @@ Object.keys(ifaces).forEach(function (ifname) {
   ifaces[ifname].forEach(function (iface) {
     if ('IPv4' !== iface.family || iface.internal !== false) {
       return;
-    }    
+    }
     host = iface.address;
   });
 });
@@ -17,7 +17,9 @@ net.createServer(function (socket) {
   console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
 
   socket.on('data', function (data) {
-    console.log('DATA ' + socket.remoteAddress + ': ' + data);
+    if (data) {
+      console.log('DATA ' + socket.remoteAddress + ': ' + data);
+    }
   });
 
   socket.on('close', function (data) {

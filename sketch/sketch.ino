@@ -25,6 +25,10 @@ char wifiPassword[] = "00000000";
 
 void setup() {
   connectWifi(ssid, wifiPassword);
+
+  if (client.connect(serverIP, serverPort)) {
+    client.println("Edison connected");
+  }
   
   pinMode(pinAO1, OUTPUT);
   pinMode(pinAO2, OUTPUT);
@@ -39,10 +43,6 @@ void setup() {
   pinMode(pinEchoTrigger, OUTPUT);
   pinMode(pinEchoResponse, INPUT);
 
-  if (client.connect(serverIP, serverPort)) {
-    client.println("Edison connected");
-  }
-  
   flashLED(10, 50);
 }
 
