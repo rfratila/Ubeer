@@ -15,10 +15,11 @@ const int pinAO3 = 6;
 const int pinLED = 13;
 
 const int pinIR = 7;
-const int pinEchoResponse = 8;
-const int pinEchoTrigger = 9;
+const int pinEcho = 8;
+const int pinTrigger = 9;
 
 float speed = 50;
+int degree = 0;
 
 boolean go = true;
 boolean wentBackward = false;
@@ -46,8 +47,8 @@ void setup() {
 
   pinMode(pinLED, OUTPUT);
 
-  pinMode(pinEchoTrigger, OUTPUT);
-  pinMode(pinEchoResponse, INPUT);
+  pinMode(pinTrigger, OUTPUT);
+  pinMode(pinEcho, INPUT);
 
   pinMode(pinIR, INPUT);
     
@@ -55,6 +56,33 @@ void setup() {
 }
 
 void loop() {
+  randomWalk();
+  //hugWallAlg();
+}
+void randomWalk(){
+  long start = millis();
+  unsigned long dist = ping();
+  long distance;
+  long distovertime = 0.03;//cm/milli
+  forward(100,100);
+  if (dist < 15){
+    long finished = millis();
+    long elapsed = finished - start;
+    brake();
+    distance = elapsed * distovertime;
+    client.println(degree + "," + distance);
+    int rw = random(0,100);
+    if (rw < 50){//turn right
+      degree += 45;
+      turn(degree);
+    }
+    else if (rw >= 50){//turn left
+      degree -= 45;
+      turn(degree);
+    }    
+  }  
+}
+void hugWallAlg(){
   int distance = digitalRead(pinIR);
   
   float accelerate = 1.15;  
@@ -77,7 +105,7 @@ void loop() {
     }    
   }
   
-  if (distance == 1) {
+  if (distance < 10) {
     go = false;
   }
   
@@ -88,7 +116,6 @@ void loop() {
     wentBackward = false;
   }
 }
-
 void connectWifi(char ssid[], char wifiPassword[]) {
   int status = WL_IDLE_STATUS;
   while (status != WL_CONNECTED) {
@@ -100,13 +127,13 @@ void connectWifi(char ssid[], char wifiPassword[]) {
 // Sends a ping and returns in cm how far an obstacle is
 unsigned long ping() {
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  digitalWrite(pinEchoTrigger, LOW);
+  digitalWrite(pinTrigger, LOW);
   delayMicroseconds(2);
-  digitalWrite(pinEchoTrigger, HIGH);
+  digitalWrite(pinTrigger, HIGH);
   delayMicroseconds(5);
-  digitalWrite(pinEchoTrigger, LOW);
+  digitalWrite(pinTrigger, LOW);
 
-  unsigned long duration = pulseIn(pinEchoResponse, HIGH);
+  unsigned long duration = pulseIn(pinEcho, HIGH);
   unsigned long distance = duration / 58.2;
 
   delay(100);
