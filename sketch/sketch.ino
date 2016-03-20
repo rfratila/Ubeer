@@ -1,17 +1,17 @@
-// Right motor pin
-const int pinAO1 = 4;
-const int pinAO2 = 5;
-const int pinAO3 = 6;
-
 // Left motor pin
 const int pinBO1 = 1;
 const int pinBO2 = 2;
 const int pinBO3 = 3;
 
+// Right motor pin
+const int pinAO1 = 4;
+const int pinAO2 = 5;
+const int pinAO3 = 6;
+
 const int pinLED = 13;
 
-const int pinEchoTrigger = 9;// Sensor pin number
-const int pinEchoResponse = 8;// Sensor pin number
+const int pinEchoResponse = 8;
+const int pinEchoTrigger = 9;
  
 void setup() {
   pinMode(pinAO1, OUTPUT);
@@ -27,14 +27,7 @@ void setup() {
   pinMode(pinEchoTrigger, OUTPUT);
   pinMode(pinEchoResponse, INPUT);
     
-  // Startup LED flash
-  digitalWrite(pinLED, HIGH);   
-  delay(5000);              
-  digitalWrite(pinLED, LOW);
-  delay(500);  
-  digitalWrite(pinLED, HIGH);   
-  delay(500);              
-  digitalWrite(pinLED, LOW);
+  flashLED(20, 50);
 }
 
 void loop() { 
@@ -61,6 +54,15 @@ unsigned long ping() {
   
   delay(100);
   return distance;
+}
+
+void flashLED(int numTimes, int duration) {
+  for (int i = 1; i <= numTimes; i++) {
+    digitalWrite(pinLED, HIGH);   
+    delay(duration);              
+    digitalWrite(pinLED, LOW);
+    delay(duration);    
+  } 
 }
 
 void forward(int speed) {
