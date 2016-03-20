@@ -4,6 +4,7 @@ var ifaces = os.networkInterfaces();
 var host;
 var port = 1234;
 var forwardingSockets = [];
+var edisonIP;
 
 Object.keys(ifaces).forEach(function (ifname) {
   ifaces[ifname].forEach(function (iface) {
@@ -15,25 +16,28 @@ Object.keys(ifaces).forEach(function (ifname) {
 });
 
 net.createServer(function (socket) {
-  console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+  // Relay data to everything that is not the Edison
+  if (edisonIP && socket.remoteAddress !== edisonIP) {
+    forwardingSockets.push(socket);
+    console.log('Added relay: ' + socket.remoteAddress);
+    socket.write('Connected to relay');
+    return;
+  }
 
+  // Only the Edison should be sending data to the server
   socket.on('data', function (data) {
     if (data) {
-      if (data === 'ADD_RELAY') {
-        forwardingSockets.push(socket);
-        console.log("ADDED RELAY: " + socket.remoteAddress);
-        return;
-      }
-
-      dataArr = data.toString().split(':');
-      if (dataArr[0] === 'EDISON') {
+      data = data.toString().trim();
+      if (data === 'Edison connected') {
+        edisonIP = socket.remoteAddress;
+        console.log('Edison connected: ' + edisonIP);
+      } else {
         for (var i = 0; i < forwardingSockets.length; i++) {
-          forwardingSockets[i].write(dataArr[1]);
+          if (forwardingSockets[i]) {
+            forwardingSockets[i].write(data.toString());
+          }
         }
-        return;
       }
-
-      console.log('DATA ' + socket.remoteAddress + ': ' + data);
     }
   });
 
