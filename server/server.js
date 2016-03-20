@@ -30,6 +30,7 @@ net.createServer(function(socket) {
   socket.on('data', function(data) {
     if (data) {
       data = data.toString().trim();
+      console.log(data);
       if (data === 'Edison connected') {
         edisonIP = socket.remoteAddress;
         console.log('Edison connected: ' + edisonIP);

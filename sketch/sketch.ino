@@ -68,7 +68,7 @@ void randomWalk(){
     start = millis();
     startTimer = true;
   }
-  client.println(start + "," 0);
+  client.println(start + "," + 0);
   unsigned long dist = ping();
   long distance;
   long distovertime = 0.03;//cm/milli
