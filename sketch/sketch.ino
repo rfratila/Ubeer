@@ -59,8 +59,15 @@ void loop() {
   randomWalk();
   //hugWallAlg();
 }
+
+boolean startTimer = false;
+long start;
 void randomWalk(){
-  long start = millis();
+  if (!startTimer){
+    start = millis();
+    startTimer = true;
+  }
+  
   unsigned long dist = ping();
   long distance;
   long distovertime = 0.03;//cm/milli
@@ -68,6 +75,7 @@ void randomWalk(){
   if (dist < 15){
     long finished = millis();
     long elapsed = finished - start;
+    startTimer = false;
     brake();
     distance = elapsed * distovertime;
     client.println(degree + "," + distance);
