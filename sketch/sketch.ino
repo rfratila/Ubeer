@@ -15,8 +15,8 @@ const int pinAO3 = 6;
 const int pinLED = 13;
 
 const int pinIR = 7;
-const int pinEcho = 8;
-const int pinTrigger = 9;
+const int pinEcho = 10;
+const int pinTrigger = 11;
 
 float speed = 50;
 int degree = 0;
@@ -68,26 +68,26 @@ void randomWalk(){
     start = millis();
     startTimer = true;
   }
-  client.println(start + "," + 0);
   unsigned long dist = ping();
   long distance;
-  long distovertime = 0.03;//cm/milli
+  long distovertime = 0.3;//cm/milli
   forward(100,100);
-  if (dist < 2){
+  if (dist < 20){
     brake();
     long finished = millis();
     long elapsed = finished - start;
     startTimer = false;    
     distance = elapsed * distovertime;
-    client.println(degree + "," + distance);
     int rw = random(0,100);
     if (rw < 50){//turn right
-      degree += 45;
+      degree += 90;
       turn(45);
+      client.println("90,10\r\n");
     }
     else if (rw >= 50){//turn left
-      degree -= 45;
+      degree -= 90;
       turn(-45);
+      client.println("-90,10\r\n");
     }    
   }  
 }
@@ -139,7 +139,7 @@ unsigned long ping() {
   digitalWrite(pinTrigger, LOW);
   delayMicroseconds(2);
   digitalWrite(pinTrigger, HIGH);
-  delayMicroseconds(5);
+  delayMicroseconds(7);
   digitalWrite(pinTrigger, LOW);
 
   unsigned long duration = pulseIn(pinEcho, HIGH);
@@ -186,7 +186,7 @@ void reverse(int speedR, int speedL) {
 // NEGATIVE degrees will turn to the LEFT
 void turn(int degrees) {
   //time for 360
-  double t = 0.09;
+  double t = 30;
   int state[] = {digitalRead(pinAO1), digitalRead(pinAO2), digitalRead(pinBO1), digitalRead(pinBO2)};
   brake();
 

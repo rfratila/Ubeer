@@ -15,7 +15,7 @@ Object.keys(ifaces).forEach(function (ifname) {
   });
 });
 
-net.createServer(function(socket) {
+net.createServer(function (socket) {
   console.log('Connected: ' + socket.remoteAddress + ':' + socket.remotePort);
 
   // Relay data to everything that is not the Edison
@@ -27,7 +27,7 @@ net.createServer(function(socket) {
   }
 
   // Only the Edison should be sending data to the server
-  socket.on('data', function(data) {
+  socket.on('data', function (data) {
     if (data) {
       data = data.toString().trim();
       console.log(data);
@@ -37,18 +37,20 @@ net.createServer(function(socket) {
       } else {
         for (var i = 0; i < forwardingSockets.length; i++) {
           if (forwardingSockets[i]) {
-            forwardingSockets[i].write(data.toString());
+            if (data) {
+              forwardingSockets[i].write(data);
+            }
           }
         }
       }
     }
   });
 
-  socket.on('close', function(err) {
+  socket.on('close', function (err) {
     console.log('Closed connection');
   });
 
-  socket.on('error', function(err) {
+  socket.on('error', function (err) {
     console.log('Error: ' + err.stack);
   });
 
