@@ -15,39 +15,40 @@ Object.keys(ifaces).forEach(function (ifname) {
   });
 });
 
-net.createServer(function (socket) {
+net.createServer(function(socket) {
+  console.log('Connected: ' + socket.remoteAddress + ':' + socket.remotePort);
+
   // Relay data to everything that is not the Edison
   if (edisonIP && socket.remoteAddress !== edisonIP) {
     forwardingSockets.push(socket);
-    console.log('Added relay: ' + socket.remoteAddress);
+    console.log('Relay connected: ' + socket.remoteAddress);
     socket.write('Connected to relay');
     return;
   }
 
   // Only the Edison should be sending data to the server
-  socket.on('data', function (data) {
+  socket.on('data', function(data) {
     if (data) {
       data = data.toString().trim();
-      console.log(data);
       if (data === 'Edison connected') {
         edisonIP = socket.remoteAddress;
         console.log('Edison connected: ' + edisonIP);
       } else {
         for (var i = 0; i < forwardingSockets.length; i++) {
           if (forwardingSockets[i]) {
-            forwardingSockets[i].write(data.toString() + '\r\n');
+            forwardingSockets[i].write(data.toString());
           }
         }
       }
     }
   });
 
-  socket.on('close', function (err) {
-    console.log('CLOSED: ' + socket.remoteAddress + ':' + socket.remotePort);
+  socket.on('close', function(err) {
+    console.log('Closed connection');
   });
 
-  socket.on('error', function (err) {
-    console.log('ERROR: ' + err);
+  socket.on('error', function(err) {
+    console.log('Error: ' + err.stack);
   });
 
 }).listen(port, host);
