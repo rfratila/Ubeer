@@ -128,8 +128,8 @@ void forward(int speedR, int speedL) {
 
   int  sigR = map(speedR, 1 , 100, 0, 255);
   int  sigL = map(speedL, 1 , 100, 0, 255);
-  analogWrite(pinAO3, sigR);//right (0-255)
-  analogWrite(pinBO3, sigL);//left (0-255)
+  analogWrite(pinAO3, sigL);//right (0-255)
+  analogWrite(pinBO3, sigR);//left (0-255)
 }
 
 void reverse(int speedR, int speedL) {
@@ -140,8 +140,8 @@ void reverse(int speedR, int speedL) {
 
   int  sigR = map(speedR, 1 , 100, 0, 255);
   int  sigL = map(speedL, 1 , 100, 0, 255);
-  analogWrite(pinAO3, sigR);//right (0-255)
-  analogWrite(pinBO3, sigL);//left (0-255)
+  analogWrite(pinAO3, sigL);//left (0-255)
+  analogWrite(pinBO3, sigR);//left (0-255)
 }
 
 // POSITIVE degrees will turn to the RIGHT
