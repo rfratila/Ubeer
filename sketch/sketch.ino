@@ -20,12 +20,11 @@ const int pinEchoTrigger = 9;
 IPAddress serverIP(192, 168, 0, 102);
 const int serverPort = 1234;
 
+char ssid[] = "EdisonWiFI";
+char wifiPassword[] = "00000000";
+
 void setup() {
-  int status = WL_IDLE_STATUS;
-  while (status != WL_CONNECTED) {
-    status = WiFi.begin("EdisonWiFI", "00000000");
-    delay(10000);
-  }
+  connectWifi(ssid, wifiPassword);
   
   pinMode(pinAO1, OUTPUT);
   pinMode(pinAO2, OUTPUT);
@@ -54,6 +53,14 @@ void loop() {
     brake();
     reverse(100);
     turn(45);
+  }
+}
+
+void connectWifi(char ssid[], char wifiPassword[]) {
+  int status = WL_IDLE_STATUS;
+  while (status != WL_CONNECTED) {
+    status = WiFi.begin(ssid, wifiPassword);
+    delay(10000);
   }
 }
 
